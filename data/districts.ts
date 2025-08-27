@@ -1,0 +1,21 @@
+const districts = [
+  { id: 'Keelung City', name: '基隆市', description: '' },
+  { id: 'Taipei City', name: '臺北市', description: '' },
+  { id: 'New Taipei City', name: '新北市', description: '' },
+  { id: 'Taoyuan City', name: '桃園市', description: '' },
+  { id: 'Hsinchu City', name: '新竹市', description: '' },
+  { id: 'Hsinchu County', name: '新竹縣', description: '' },
+  { id: 'Miaoli County', name: '苗栗縣', description: '' },
+  { id: 'Taichung City', name: '臺中市', description: '' },
+  { id: 'Changhua County', name: '彰化縣', description: '' },
+  { id: 'Yunlin County', name: '雲林縣', description: '' },
+  { id: 'Chiayi City', name: '嘉義市', description: '' },
+  { id: 'Chiayi County', name: '嘉義縣', description: '' },
+  { id: 'Tainan City', name: '臺南市', description: '' },
+  { id: 'Kaohsiung City', name: '高雄市', description: '' },
+  { id: 'Pingtung County', name: '屏東縣', description: '' },
+  { id: 'Nantou County', name: '南投縣', description: '' },
+  { id: 'Yilan County', name: '宜蘭縣', description: '' },
+  { id: 'Hualien County', name: '花蓮縣', description: '' },
+  { id: 'Taitung County', name: '臺東縣', description: '' }
+]
