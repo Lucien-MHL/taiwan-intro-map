@@ -17,8 +17,6 @@ export function TaiwanSvgMap() {
   const { selectedCity } = useMapStore()
   const { handleCityClick, handleReset } = useMapZoom()
 
-  console.log('zustand state:', selectedCity)
-
   useEffect(() => {
     if (!svgRef.current) return
     const svg = d3.select(svgRef.current)
@@ -73,7 +71,7 @@ export function TaiwanSvgMap() {
     svg.call(zoom)
 
     // 添加地圖路徑
-    const paths = mapGroup
+    mapGroup
       .selectAll('path')
       .data(mapObject.features)
       .join('path')

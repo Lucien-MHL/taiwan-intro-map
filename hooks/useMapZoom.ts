@@ -50,11 +50,24 @@ export const useMapZoom = () => {
       height: number
     ) => {
       event.stopPropagation()
-      ;(event.target as SVGPathElement).setAttribute('id', 'selected')
+      const selectedElement = svg.select('#selected')
+      if (selectedElement) {
+        selectedElement
+          .attr('id', '')
+          .attr(
+            'class',
+            cn(
+              'fill-transparent cursor-pointer stroke-1.5 stroke-gray-300',
+              'transition-all ease-in-out duration-300',
+              'hover:fill-[#06b6d4]'
+            )
+          )
+      }
+      const element = event.target as SVGPathElement
+      element.setAttribute('id', 'selected')
 
       // 從 TopoJSON 的 properties 中獲取縣市名稱
       const cityName = feature.properties?.COUNTYNAME
-      const cityId = feature.properties?.COUNTYCODE
 
       setSelectedCity(cityName)
       setZoomState(true)
