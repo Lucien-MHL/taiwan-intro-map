@@ -51,7 +51,8 @@ export const useMapZoom = () => {
     ) => {
       event.stopPropagation()
       const selectedElement = svg.select('#selected')
-      if (selectedElement) {
+      const element = event.target as SVGPathElement
+      if (selectedElement.node() !== element) {
         selectedElement
           .attr('id', '')
           .attr(
@@ -63,7 +64,7 @@ export const useMapZoom = () => {
             )
           )
       }
-      const element = event.target as SVGPathElement
+
       element.setAttribute('id', 'selected')
 
       // 從 TopoJSON 的 properties 中獲取縣市名稱
