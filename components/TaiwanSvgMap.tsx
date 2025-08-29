@@ -12,6 +12,11 @@ const tw = map_data as any as Omit<TopoJSON.Topology, 'arcs'> & {
   arcs: [number, number][][]
 }
 
+const viewBox = {
+  width: 450,
+  height: 800
+}
+
 export function TaiwanSvgMap() {
   const svgRef = useRef<SVGSVGElement | null>(null)
   const { selectedCity } = useMapStore()
@@ -39,24 +44,25 @@ export function TaiwanSvgMap() {
   }, [selectedCity])
 
   const draw = (svg: d3.Selection<SVGSVGElement, unknown, null, undefined>) => {
-    const width = document.documentElement.clientWidth
-    const height = document.documentElement.clientHeight
+    const width = viewBox.width
+    const height = viewBox.height
     const mapObject = feature(tw, tw.objects.main) as GeoJSON.FeatureCollection
 
     const projection = d3
       .geoMercator()
-      .scale(10000)
-      .center([121, 23.5])
+      .scale(11000)
+      .center([121, 23.6])
       .translate([width / 2, height / 2])
     const path = d3.geoPath().projection(projection)
 
     svg.attr('width', width).attr('height', height)
+    // .attr('viewBox', [0, 0, width, height])
 
     // 清除之前的內容
     svg.selectAll('*').remove()
 
     // 創建地圖容器群組
-    const mapGroup = svg.append('g').attr('class', 'map-group')
+    const mapGroup = svg.append('g')
 
     // 創建縮放行為
     const zoom = d3
@@ -66,9 +72,6 @@ export function TaiwanSvgMap() {
         const { transform } = event
         mapGroup.attr('transform', transform.toString())
       })
-
-    // 應用縮放行為到 SVG
-    svg.call(zoom)
 
     // 添加地圖路徑
     mapGroup
@@ -93,13 +96,15 @@ export function TaiwanSvgMap() {
       handleReset(svg, zoom)
       // 顏色重置由 useEffect 處理
     })
-
-    // 雙擊重置
-    svg.on('dblclick.zoom', () => {
-      handleReset(svg, zoom)
-      // 顏色重置由 useEffect 處理
-    })
   }
 
-  return <svg ref={svgRef} />
+  return (
+    <div className="h-screen w-full">
+      <svg
+        ref={svgRef}
+        className="h-full w-full"
+        viewBox={`0 0  ${viewBox.width} ${viewBox.height}`}
+      />
+    </div>
+  )
 }
