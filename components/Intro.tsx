@@ -20,7 +20,7 @@ export const Intro = () => {
     <div
       className={cn(
         // Base styles
-        'absolute z-10 rounded-lg bg-black/80 text-white shadow-2xl backdrop-blur-sm',
+        'absolute z-10 rounded-lg bg-black/80 text-white shadow-2xl backdrop-blur-sm select-none',
         'pointer-events-none',
         'overflow-hidden transition-all duration-300 ease-in-out',
         'max-h-fit max-w-2xs',
@@ -36,27 +36,28 @@ export const Intro = () => {
         'max-sm:right-4 max-sm:bottom-4 max-sm:left-auto max-sm:max-w-[280px] max-sm:bg-black/90'
       )}
     >
-      {/* 摺疊按鈕 - 可點擊 */}
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
+      <div
         className={cn(
-          'pointer-events-auto absolute top-6 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-cyan-600/30 text-xs text-cyan-200 transition-all duration-200 hover:bg-cyan-600/50 hover:text-white',
-          isCollapsed ? 'top-3 right-2' : 'top-6 right-4',
-          'sm:hidden'
-        )}
-        aria-label={isCollapsed ? '展開資訊' : '收合資訊'}
-      >
-        {isCollapsed ? '↑' : '↓'}
-      </button>
-      {/* Title */}
-      <h2
-        className={cn(
-          'pr-8 text-xl font-bold text-cyan-400',
+          'flex items-center justify-between',
           !isCollapsed && 'mb-2'
         )}
       >
-        {currentContent.title}
-      </h2>
+        {/* Title */}
+        <h2 className="pr-4 text-xl font-bold text-cyan-400">
+          {currentContent.title}
+        </h2>
+        {/* 摺疊按鈕 - 可點擊 */}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className={cn(
+            'pointer-events-auto flex h-6 w-6 items-center justify-center rounded-full bg-cyan-600/30 text-xs text-cyan-200 transition-all duration-200 hover:bg-cyan-600/50 hover:text-white',
+            isCollapsed ? 'top-3 right-2 rotate-0' : 'top-6 right-4 rotate-180',
+            'sm:hidden'
+          )}
+        >
+          ↑
+        </button>
+      </div>
 
       <div
         className={cn(

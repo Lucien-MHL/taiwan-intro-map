@@ -20,7 +20,7 @@ const viewBox = {
 export function TaiwanSvgMap() {
   const svgRef = useRef<SVGSVGElement | null>(null)
   const { selectedCity } = useMapStore()
-  const { handleCityClick, handleReset } = useMapZoom()
+  const { handleCityClick, handleReset, createD3Zoom } = useMapZoom()
 
   useEffect(() => {
     if (!svgRef.current) return
@@ -56,22 +56,12 @@ export function TaiwanSvgMap() {
     const path = d3.geoPath().projection(projection)
 
     svg.attr('width', width).attr('height', height)
-    // .attr('viewBox', [0, 0, width, height])
-
-    // 清除之前的內容
-    svg.selectAll('*').remove()
 
     // 創建地圖容器群組
     const mapGroup = svg.append('g')
 
     // 創建縮放行為
-    const zoom = d3
-      .zoom<SVGSVGElement, unknown>()
-      .scaleExtent([1, 8])
-      .on('zoom', (event) => {
-        const { transform } = event
-        mapGroup.attr('transform', transform.toString())
-      })
+    const zoom = createD3Zoom(mapGroup)
 
     // 添加地圖路徑
     mapGroup
@@ -93,14 +83,14 @@ export function TaiwanSvgMap() {
 
     // 點擊空白區域重置
     svg.on('click', () => {
-      handleReset(svg, zoom)
-      // 顏色重置由 useEffect 處理
+      handleReset()
     })
   }
 
   return (
     <div className="h-screen w-full">
       <svg
+        id="taiwan-map"
         ref={svgRef}
         className="h-full w-full"
         viewBox={`0 0  ${viewBox.width} ${viewBox.height}`}
