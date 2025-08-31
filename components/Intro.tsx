@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useContentStore } from '@/stores/contentStore'
+import { useLoadingStore } from '@/stores/loadingStore'
 import { cn } from '@/lib/utils'
 import { useWindowSize } from '@/hooks/useWindowSize'
 
 export const Intro = () => {
   const { currentContent } = useContentStore()
+  const { isLoading } = useLoadingStore()
   const { width } = useWindowSize()
   const [isCollapsed, setIsCollapsed] = useState(false)
 
@@ -22,10 +24,12 @@ export const Intro = () => {
         // Base styles
         'absolute z-10 rounded-lg bg-black/80 text-white shadow-2xl backdrop-blur-sm select-none',
         'pointer-events-none',
-        'overflow-hidden transition-all duration-300 ease-in-out',
+        'overflow-hidden transition-all duration-1000 ease-in-out',
         'max-h-fit max-w-2xs',
         // 摺疊狀態樣式
         isCollapsed ? 'p-3' : 'p-6',
+        // Loading fade effect
+        isLoading ? 'translate-y-4 opacity-0' : 'translate-y-0 opacity-100',
         // Desktop positioning (>=1280px)
         'xl:right-1/2 xl:translate-x-[150%]',
         // Desktop positioning (>=1024px)

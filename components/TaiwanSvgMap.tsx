@@ -7,6 +7,7 @@ import map_data from '@/data/main.json'
 import { cn } from '@/lib/utils'
 import { useMapZoom } from '@/hooks/useMapZoom'
 import { useMapStore } from '@/stores/mapStore'
+import { useLoadingStore } from '@/stores/loadingStore'
 
 const tw = map_data as any as Omit<TopoJSON.Topology, 'arcs'> & {
   arcs: [number, number][][]
@@ -20,13 +21,18 @@ const viewBox = {
 export function TaiwanSvgMap() {
   const svgRef = useRef<SVGSVGElement | null>(null)
   const { selectedCity } = useMapStore()
+  const { isLoading, setLoading, setStage } = useLoadingStore()
   const { handleCityClick, handleReset, createD3Zoom } = useMapZoom()
 
   useEffect(() => {
     if (!svgRef.current) return
+
+    // Set loading stage to rendering
+    setStage('rendering')
+
     const svg = d3.select(svgRef.current)
     draw(svg)
-  }, [svgRef])
+  }, [svgRef, setStage])
 
   // 監聽 selectedCity 變化，重新設置選中狀態
   useEffect(() => {
@@ -64,7 +70,7 @@ export function TaiwanSvgMap() {
     const zoom = createD3Zoom(mapGroup)
 
     // 添加地圖路徑
-    mapGroup
+    const paths = mapGroup
       .selectAll('path')
       .data(mapObject.features)
       .join('path')
@@ -85,10 +91,21 @@ export function TaiwanSvgMap() {
     svg.on('click', () => {
       handleReset()
     })
+
+    // 設置載入完成 - 使用 setTimeout 確保 DOM 更新完成
+    setTimeout(() => {
+      setStage('completed')
+      setLoading(false)
+    }, 100)
   }
 
   return (
-    <div className="h-screen w-full">
+    <div
+      className={cn(
+        'h-screen w-full transition-opacity duration-1000 ease-in-out',
+        isLoading ? 'opacity-0' : 'opacity-100'
+      )}
+    >
       <svg
         id="taiwan-map"
         ref={svgRef}

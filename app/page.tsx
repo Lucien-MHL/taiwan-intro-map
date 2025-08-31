@@ -1,6 +1,7 @@
 import { Intro } from '@/components/Intro'
 import { TaiwanSvgMap } from '@/components/TaiwanSvgMap'
 import { BackButton } from '@/components/BackButton'
+import { LoadingPulse } from '@/components/LoadingPulse'
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <BackButton />
       <TaiwanSvgMap />
       <Intro />
+      <LoadingPulse />
     </div>
   )
 }
